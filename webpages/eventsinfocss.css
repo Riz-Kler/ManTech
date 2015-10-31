@@ -35,3 +35,56 @@ background-color:#FFB;
 	font-size:16px;
 	font-family:"Comic Sans MS", cursive;
 }
+nav
+{
+	padding: 0;
+}
+nav ul
+{
+	padding: 0;
+}
+nav ul ul 
+{
+    display: none;
+}
+nav ul li:hover > ul 
+{
+	display: block;
+}
+nav ul 
+{
+    list-style: none;
+    position: relative;
+}
+nav ul li
+{
+	font-size:20px;
+	color:#39F;
+	font-family:Arial, Helvetica, sans-serif;
+}
+ nav ul li a 
+{
+	display: block;
+	color:#39F;
+}
+nav ul ul 
+{
+	background:#39F;
+	border-radius: 0px; 
+	padding: 0;
+	position: absolute; 
+	top: 100%;
+}
+nav ul ul li 
+{
+	 border-bottom: 1px solid #fff;
+	float: none; 
+	position: relative;
+}
+nav ul ul li a 
+{
+	padding: 5px 5px;
+	color: #fff;
+	font-size:16px;
+	font-family:Georgia, "Times New Roman", Times, serif
+}   
