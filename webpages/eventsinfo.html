@@ -2,7 +2,16 @@
 <head>
 <title>Personal Profile</title>
 <link href="eventsinfocss.css" rel="stylesheet" />
-
+<script type="text/javascript">
+function Regist()
+{
+	window.alert("Regist Succeed!");
+}
+function Add()
+{
+	window.alert("Add Succed!");
+}
+</script>
 </head>
 <body>
 
@@ -10,26 +19,26 @@
   <div align="right">
     <table>   
       <tr id="account" >
-        <td width="30" id="selfie">
-        <img src="../pictures/20150410_120453000_iOS.jpg" style="max-width:30px;max-height:30px">
-        </td>
-        <td id="account name">
-        <label>Maneriar</label>
-        </td>
-        <td width="10">
-        </td>
-        <td >
-          <span id="more">
-            <td>
-            <label>More</label>
-            </td>
-            <td>
-            <label>
-            <img src="../pictures/more.png" style="max-width:15px;max-height:15px">
-            </label>
-            </td>
-          </span>        
-          </td>
+        <td  valign="top" width="30" id="selfie">
+        <img src="../pictures/20150410_120453000_iOS.jpg" style="max-width:30px;max-height:30px"></td>
+        <td valign="top" id="account name"><label>Maneriar</label></td>
+        <td width="10"></td>
+        
+        <td align="left">
+<nav>
+    <ul>
+        <li>More
+       <img src="../pictures/more.png" style="max-width:15px;max-height:15px">
+            <ul>
+                <li><a href="detailselfinfo.html">View SelfInfo</a></li>
+                <li><a href="modification.html">Modify SelfInfon</a></li>
+                <li><a href="pswchange.html">Change Password</a></li>
+                 <li><a href="login.html">Log Out</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+</td>    
       </tr>
     </table>
   </div>
@@ -77,10 +86,10 @@ Snacks
   <table width=100%>
 <tr align="center">
 <td>
-<button>Regist it</button>
+<button  type="button" onclick="Regist()">Regist it</button>
 </td>
 <td>
-<button>Add to Wishlist</button>
+<button  type="button" onclick="Add()">Add to Wishlist</button>
 </td>
 </tr>
 </table>
