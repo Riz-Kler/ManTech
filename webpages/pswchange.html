@@ -1,6 +1,12 @@
 <!doctype html>
 <html>
 <head>
+<script type="text/javascript">
+function Submit()
+{
+	window.alert("Change Succeed!");
+}
+</script>
 <meta charset="utf-8">
 <title>Change password</title>
 <link href="changepsw.css" rel="stylesheet" type="text/css"/>
@@ -27,11 +33,19 @@ Confirm your password:
 <input id="confirmpsw" type="password" name="confirmpsw" placeholder="password">
 
 </fieldset>
-<fieldset id="actions"> 
-<a href="">
-<input type="button" id="submit" value="Submit"> 
-</a>
-</fieldset> 
+<table width=100%>
+<tr>
+<td align="left">
+<a onclick="javascript:history.go(-1);">
+<input type="button" class="submit" value="Return"> 
+</a></td>
+<td width=100%></td>
+<td>
+<a href="login.html">
+ <input type="button" class="submit" onclick="Submit()"value="Submit">
+ </a>
+</td>
+</tr></table>
 
 
 </form>
