@@ -68,6 +68,8 @@ background-color:#FFB;
 {
 	font-size:10px;
 	font-family:Verdana, Geneva, sans-serif;
+		color: #000;
+		
 }
 
 #today
@@ -154,4 +156,7 @@ nav ul ul li a
 	color: #fff;
 	font-size:16px;
 	font-family:Georgia, "Times New Roman", Times, serif
-}   
+}   .eventsinfo {
+	color: #000;
+}
+

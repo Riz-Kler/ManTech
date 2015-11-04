@@ -9,13 +9,10 @@ body
 { 
 font: 12px 'Lucida Sans Unicode', 'Trebuchet MS', Arial, Helvetica; 
 margin: 0; 
-background-color: #d9dee2; 
-background-image: -webkit-gradient(linear, left top, left bottom, from(#ebeef2), to(#d9dee2)); 
-background-image: -webkit-linear-gradient(top, #ebeef2, #d9dee2); 
-background-image: -moz-linear-gradient(top, #ebeef2, #d9dee2); 
-background-image: -ms-linear-gradient(top, #ebeef2, #d9dee2); 
-background-image: -o-linear-gradient(top, #ebeef2, #d9dee2); 
-background-image: linear-gradient(top, #ebeef2, #d9dee2); 
+background-image:url(file:///C|/Users/Maneriar/ManTech/pictures/BGpicture.jpg);
+background-size:100% 100%;
+height:100%;
+width:100%;
 } 
 /*--------------------*/ 
 #CreateEvent 
