@@ -33,7 +33,7 @@
       </tr>
     </table>
   </div>
-  <form action="/search/bycat" id="search" method="post">
+  <form action="/search" id="search" method="post">
   <div align="center">
   <table align="center">
   <tr align="center" height="200px">
@@ -44,7 +44,7 @@
   <input name="category" placeholder="i.e. concert" type="text"></td>
   <td class="conditions">Location
     <input name="location" placeholder="i.e. Arndale" type="text"></td><td class="conditions">
-    Date<input name="date" placeholder="i.e. 03112015" type="text"></td>
+    Date<input name="date" placeholder="i.e. 2015-11-05" type="text"></td>
   </tr> 
   <tr height="20px"></tr>
   </table>
@@ -60,10 +60,10 @@
 
   </table>
 
-  </form>
+
   
   </div>
   </div>
-
+  </form>
 </body>
 </html>

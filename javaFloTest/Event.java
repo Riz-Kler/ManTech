@@ -116,7 +116,8 @@ public class Event {
 		this.picURL = picURL;
 	}
 	
-
+	
+	
 	public void displayEvent(){
 		   Connection conn = null;
 		   Statement stmt = null;
@@ -184,6 +185,200 @@ public class Event {
 		}
 	
     
+	public static int getDBidUsrFromNameUsr(String usrname){
+		// JDBC driver name and database URL
+		final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
+		final String DB_URL = "jdbc:mysql://localhost/Mantech";
+		
+		//  Database credentials
+		final String USER = "root";
+		final String PASS = "s8E3oz8]";
+		Connection conn = null;
+		Statement stmt = null;
+		
+		   try{
+		      //STEP 2: Register JDBC driver
+		      Class.forName("com.mysql.jdbc.Driver");
+
+		      //STEP 3: Open a connection
+		//      System.out.println("Connecting to database...");
+		      conn = DriverManager.getConnection(DB_URL,USER,PASS);
+
+		      //STEP 4: Execute a query
+		 //     System.out.println("Creating statement...");
+
+		      String getIdUsr;
+		      getIdUsr = "SELECT idUser FROM User WHERE name LIKE '"+usrname+"'";
+		     
+		      stmt = conn.createStatement();
+		      ResultSet rs = stmt.executeQuery(getIdUsr);
+
+		      //STEP 5: Extract data from result set
+		      while(rs.next()){ //let's assume that name is unique
+		         //Retrieve by column name
+			         int id = rs.getInt(1);
+			         return id;
+		      }
+		      
+		      
+		      //STEP 6: Clean-up environment
+		      rs.close();
+		      stmt.close();
+		      conn.close();
+			
+		   }catch(SQLException se){
+		      //Handle errors for JDBC
+		      se.printStackTrace();
+		   }catch(Exception e){
+		      //Handle errors for Class.forName
+		      e.printStackTrace();
+		   }finally{
+		      //finally block used to close resources
+		      try{
+		         if(stmt!=null)
+		            stmt.close();
+		      }catch(SQLException se2){
+		      }// nothing we can do
+		      try{
+		         if(conn!=null)
+		            conn.close();
+		      }catch(SQLException se){
+		         se.printStackTrace();
+		      }//end finally try
+		   }//end try
+		return -1;
+		
+	}
+
+	
+	public static int getDBidCatFromNameCat(String cat){
+		// JDBC driver name and database URL
+		final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
+		final String DB_URL = "jdbc:mysql://localhost/Mantech";
+		
+		//  Database credentials
+		final String USER = "root";
+		final String PASS = "s8E3oz8]";
+		Connection conn = null;
+		Statement stmt = null;
+		
+		   try{
+		      //STEP 2: Register JDBC driver
+		      Class.forName("com.mysql.jdbc.Driver");
+
+		      //STEP 3: Open a connection
+		//      System.out.println("Connecting to database...");
+		      conn = DriverManager.getConnection(DB_URL,USER,PASS);
+
+		      //STEP 4: Execute a query
+		 //     System.out.println("Creating statement...");
+
+		      String getIdCat;
+		      getIdCat = "SELECT idCategory FROM Category WHERE name LIKE '"+cat+"'";
+		     
+		      stmt = conn.createStatement();
+		      ResultSet rs = stmt.executeQuery(getIdCat);
+
+		      //STEP 5: Extract data from result set
+		      while(rs.next()){ //let's assume that name is unique
+		         //Retrieve by column name
+			         int id = rs.getInt(1);
+			         return id;
+		      }
+		      
+		      
+		      //STEP 6: Clean-up environment
+		      rs.close();
+		      stmt.close();
+		      conn.close();
+			
+		   }catch(SQLException se){
+		      //Handle errors for JDBC
+		      se.printStackTrace();
+		   }catch(Exception e){
+		      //Handle errors for Class.forName
+		      e.printStackTrace();
+		   }finally{
+		      //finally block used to close resources
+		      try{
+		         if(stmt!=null)
+		            stmt.close();
+		      }catch(SQLException se2){
+		      }// nothing we can do
+		      try{
+		         if(conn!=null)
+		            conn.close();
+		      }catch(SQLException se){
+		         se.printStackTrace();
+		      }//end finally try
+		   }//end try
+		return -1;
+		
+	}
+	public static int getDBidArtFromNameArt(String art){
+		// JDBC driver name and database URL
+		final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
+		final String DB_URL = "jdbc:mysql://localhost/Mantech";
+		
+		//  Database credentials
+		final String USER = "root";
+		final String PASS = "s8E3oz8]";
+		Connection conn = null;
+		Statement stmt = null;
+		
+		   try{
+		      //STEP 2: Register JDBC driver
+		      Class.forName("com.mysql.jdbc.Driver");
+
+		      //STEP 3: Open a connection
+		//      System.out.println("Connecting to database...");
+		      conn = DriverManager.getConnection(DB_URL,USER,PASS);
+
+		      //STEP 4: Execute a query
+		 //     System.out.println("Creating statement...");
+
+		      String getIdCat;
+		      getIdCat = "SELECT idArtist FROM Artist WHERE name LIKE '"+art+"'";
+		     
+		      stmt = conn.createStatement();
+		      ResultSet rs = stmt.executeQuery(getIdCat);
+
+		      //STEP 5: Extract data from result set
+		      while(rs.next()){ //let's assume that name is unique
+		         //Retrieve by column name
+			         int id = rs.getInt(1);
+			         return id;
+		      }
+		      
+		      
+		      //STEP 6: Clean-up environment
+		      rs.close();
+		      stmt.close();
+		      conn.close();
+			
+		   }catch(SQLException se){
+		      //Handle errors for JDBC
+		      se.printStackTrace();
+		   }catch(Exception e){
+		      //Handle errors for Class.forName
+		      e.printStackTrace();
+		   }finally{
+		      //finally block used to close resources
+		      try{
+		         if(stmt!=null)
+		            stmt.close();
+		      }catch(SQLException se2){
+		      }// nothing we can do
+		      try{
+		         if(conn!=null)
+		            conn.close();
+		      }catch(SQLException se){
+		         se.printStackTrace();
+		      }//end finally try
+		   }//end try
+		return -1;
+		
+	}
 	public void addEvent() {
 		
 		String name = this.getName();
@@ -208,7 +403,10 @@ public class Event {
 		    //STEP 4: Execute a query
 		    stmt = conn.createStatement();
 		    String sql;
-		    sql = "INSERT INTO Event(name,description,date,time,pictures,eventcreator,eventartist,eventcategory) VALUES ('"+name+"', '"+descr+"', '"+date+"', '"+time+"', '"+picurl+"', '"+eventCreator+"', '"+eventArtist+"', '"+eventCategory+"')"; 
+		    int idCreator = getDBidUsrFromNameUsr(eventCreator);
+		    int idCat = getDBidCatFromNameCat(eventCategory);
+		    int idArtist = getDBidArtFromNameArt(eventArtist);
+		    sql = "INSERT INTO Event(name,description,date,time,pictures,eventcreator,eventartist,eventcategory) VALUES ('"+name+"', '"+descr+"', '"+date+"', '"+time+"', '"+picurl+"',"+idCreator+", "+idArtist+", "+idCat+")"; 
 		    stmt.executeUpdate(sql);
 		    
 		    //STEP 6: Clean-up environment
@@ -235,7 +433,8 @@ public class Event {
 		    }//end finally try
 		 }//end try
 	}
-public void updtEvent(String name, String description, String date, String time, String picurl, String eventCreator, String eventArtist, String eventCategory) {
+	
+	public void updtEvent(String name, String description, String date, String time, String picurl, String eventCreator, String eventArtist, String eventCategory) {
 		
 		String evtname = this.getName();
 		Connection conn = null;
@@ -279,7 +478,7 @@ public void updtEvent(String name, String description, String date, String time,
 		 }//end try
 	}
 
-public void deleteEvent() {
+	public void deleteEvent() {
 	
 	String name = this.getName();
 

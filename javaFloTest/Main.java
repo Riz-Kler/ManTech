@@ -31,16 +31,19 @@ public class Main
 //    	ArrayList<Event> test = new ArrayList<Event>();
 //    	test = searchByCategory("Library");
 //    	displayList(test);
+
+    	
     	
         final Configuration config = configureFreemarker(new Version(2,3,23)); // get Freemarker configuration
 
-        staticFileLocation("/public"); // css files and other public resources are in .../main/resources/public
-        Event event = new Event();
+        staticFileLocation("/public"); //css files and other public resources are in .../main/resources/public
+   //     Event event = new Event();
 
         
         
         get("/login", (request, response) ->
         		render(config,"login.ftl")
+        		
         		);
         
         get("/regist", (request, response) ->
@@ -69,7 +72,8 @@ public class Main
             
 
             // Create the entry in the database
-            // Use the values of fields in the form the user filled in            
+            // Use the values of fields in the form the user filled in 
+        	
         	Event newEvent = new Event(request.queryParams("eventname"), request.queryParams("description"), request.queryParams("eventdate"), request.queryParams("eventtime"), request.queryParams("picurl"), request.queryParams("organizor"), request.queryParams("artist"), request.queryParams("category"));
             newEvent.addEvent();
 
@@ -118,21 +122,45 @@ public class Main
        
         post("/search", (request, response) -> {
             
-        	if (request.params("category") != null && request.params("location") == null && request.params("date")== null){
-        		ArrayList<Event> res = new ArrayList<Event>();
-            	res = searchByCategory(request.params("category"));
-            	render (config, "eventDisplay.ftl", toMap("event", res));
+        	if (!(request.queryParams("category").isEmpty()) && request.queryParams("location").isEmpty() && request.queryParams("date").isEmpty()){
+        		
+        		response.redirect("/search/cat/" + request.queryParams("category"));
+        		
             	return null;
         	}
         	
-        	return null;
+        	if (request.queryParams("category").isEmpty() && !(request.queryParams("location").isEmpty()) && request.queryParams("date").isEmpty()){
+        		
+        		response.redirect("/search/loc/" + request.queryParams("location"));
+        		
+            	return null;
+        	}
+
+        	if (request.queryParams("category").isEmpty() && request.queryParams("location").isEmpty() && !(request.queryParams("date").isEmpty())){
+        		
+        		response.redirect("/search/date/" + request.queryParams("date"));
+        		
+            	return null;
+        	}
+        	
+       	return null;
         
         } );
         
-        get("/search/bycat", (request,response)-> 
-        	render(config,"eventDisplay.ftl",toMap("event", searchByCategory(request.params("category"))))
-        );
+        get("/search/cat/:cat", (request, response) -> 
+        	
+        	render(config,"eventDisplay.ftl",toMap("event",searchByCategory(request.params(":cat"))))
+        		);
+        get("/search/loc/:loc", (request, response) -> 
+    	
+    	render(config,"eventDisplay.ftl",toMap("event",searchByLocation(request.params(":loc"))))
+    		);
+        get("/search/date/:date", (request, response) -> 
+    	
+    	render(config,"eventDisplay.ftl",toMap("event",searchByDate(request.params(":date"))))
+    		);
         
+
   
 
     }
@@ -207,11 +235,11 @@ public class Main
 		         String date = rs.getString(4);
 		         String time = rs.getString(5);
 		         String picurl = rs.getString(6);
-		         int creatorId = rs.getInt(7);
+		         int creatorId = rs.getInt(8);
 		         String creator = getDBNameUsrFromIdUsr(creatorId);
-		         int artistId = rs.getInt(8);
+		         int artistId = rs.getInt(9);
 		         String artist = getDBNameArtistFromIdArtist(artistId);
-		         int categoryId = rs.getInt(9);
+		         int categoryId = rs.getInt(10);
 		         String category = getDBNameCatFromIdCat(categoryId);
 		         return new Event(nam,descr,date,time,picurl,creator,artist,category);
 		      }
@@ -251,6 +279,72 @@ public class Main
 			System.out.println((eventList.get(i)).getName() + " on " + eventList.get(i).getDate() + " organized by " + eventList.get(i).getEventCreator());
 		}
 	}
+	
+	public static int getDBidUsrFromNameUsr(String name){
+		// JDBC driver name and database URL
+		final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
+		final String DB_URL = "jdbc:mysql://localhost/Mantech";
+		
+		//  Database credentials
+		final String USER = "root";
+		final String PASS = "s8E3oz8]";
+		Connection conn = null;
+		Statement stmt = null;
+		
+		   try{
+		      //STEP 2: Register JDBC driver
+		      Class.forName("com.mysql.jdbc.Driver");
+
+		      //STEP 3: Open a connection
+		//      System.out.println("Connecting to database...");
+		      conn = DriverManager.getConnection(DB_URL,USER,PASS);
+
+		      //STEP 4: Execute a query
+		 //     System.out.println("Creating statement...");
+
+		      String getIdCat;
+		      getIdCat = "SELECT idUser FROM User WHERE name LIKE '"+name+"'";
+		     
+		      stmt = conn.createStatement();
+		      ResultSet rs = stmt.executeQuery(getIdCat);
+
+		      //STEP 5: Extract data from result set
+		      while(rs.next()){ //let's assume that name is unique
+		         //Retrieve by column name
+			         int id = rs.getInt(1);
+			         return id;
+		      }
+		      
+		      
+		      //STEP 6: Clean-up environment
+		      rs.close();
+		      stmt.close();
+		      conn.close();
+			
+		   }catch(SQLException se){
+		      //Handle errors for JDBC
+		      se.printStackTrace();
+		   }catch(Exception e){
+		      //Handle errors for Class.forName
+		      e.printStackTrace();
+		   }finally{
+		      //finally block used to close resources
+		      try{
+		         if(stmt!=null)
+		            stmt.close();
+		      }catch(SQLException se2){
+		      }// nothing we can do
+		      try{
+		         if(conn!=null)
+		            conn.close();
+		      }catch(SQLException se){
+		         se.printStackTrace();
+		      }//end finally try
+		   }//end try
+		return -1;
+		
+	}
+
 	
 	public static int getDBidCatFromNameCat(String cat){
 		// JDBC driver name and database URL
@@ -316,6 +410,8 @@ public class Main
 		return -1;
 		
 	}
+
+	
 	
 	public static String getDBNameCatFromIdCat(int id){
 		// JDBC driver name and database URL
@@ -382,6 +478,7 @@ public class Main
 		return null;
 		
 	}
+	
 	
 	public static String getDBNameArtistFromIdArtist(int id){
 		// JDBC driver name and database URL
@@ -513,7 +610,77 @@ public class Main
 		return null;
 		
 	}
-	
+	public static boolean verifyLogin(String usrname, String password){
+		// JDBC driver name and database URL
+		final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
+		final String DB_URL = "jdbc:mysql://localhost/Mantech";
+		
+		//  Database credentials
+		final String USER = "root";
+		final String PASS = "s8E3oz8]";
+		Connection conn = null;
+		Statement stmt = null;
+
+		
+		   try{
+		      //STEP 2: Register JDBC driver
+		      Class.forName("com.mysql.jdbc.Driver");
+
+		      //STEP 3: Open a connection
+		//      System.out.println("Connecting to database...");
+		      conn = DriverManager.getConnection(DB_URL,USER,PASS);
+
+		      //STEP 4: Execute a query
+		 //     System.out.println("Creating statement...");
+
+		      String sql;
+		      sql = "SELECT * FROM User WHERE nickname LIKE '"+usrname+"' AND password LIKE '"+password+"'";
+		     
+		      stmt = conn.createStatement();
+		      ResultSet rs = stmt.executeQuery(sql);
+
+		      //STEP 5: Extract data from result set
+		      if(rs.next()){ 
+		    	//STEP 6: Clean-up environment
+			      rs.close();
+			      stmt.close();
+			      conn.close();
+		         return true;
+		      }
+		      else {
+		    	//STEP 6: Clean-up environment
+			      rs.close();
+			      stmt.close();
+			      conn.close();
+		    	  return false;
+		      }
+		      
+		      
+		      
+			
+		   }catch(SQLException se){
+		      //Handle errors for JDBC
+		      se.printStackTrace();
+		   }catch(Exception e){
+		      //Handle errors for Class.forName
+		      e.printStackTrace();
+		   }finally{
+		      //finally block used to close resources
+		      try{
+		         if(stmt!=null)
+		            stmt.close();
+		      }catch(SQLException se2){
+		      }// nothing we can do
+		      try{
+		         if(conn!=null)
+		            conn.close();
+		      }catch(SQLException se){
+		         se.printStackTrace();
+		      }//end finally try
+		   }//end try
+		return false;
+		
+	}
 	public static ArrayList<Event> searchByCategory(String cat){
 		// JDBC driver name and database URL
 		final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  

@@ -14,7 +14,7 @@
 		<h1>Create Event</h1>
 		
 		
-			<label for="eventname">Event name&nbsp;</label>
+			<label for="eventname">Name&nbsp;</label>
 			<input id="eventname" type="text" name="eventname" placeholder="EventName">
 
 			<label for="location">Location&nbsp;</label>
